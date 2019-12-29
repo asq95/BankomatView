@@ -34,7 +34,7 @@
                 <Image Source="/Assets/logo.png" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="384,15"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10 0">
                 
-                <Button HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 20 0" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Click="Button_Click_1">
+                <Button HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 20 0" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Click="ExitButtonClick">
                     <materialDesign:PackIcon Kind="Power" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF4057A1" Width="25" Height="25" ></materialDesign:PackIcon>
                 </Button>                
             </StackPanel>
@@ -43,7 +43,7 @@
         <Grid Height="2" VerticalAlignment="Top" Background="#FF4057A1"></Grid>
             <Grid Height="52">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="10 0">
-                    <Button Uid="0"  Width="200" Height="50" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF4057A1" Click="Button_Click">
+                    <Button Name="Payout" Width="200" Height="50" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF4057A1" Click="SelectMenuButtonClick">
                         <DockPanel>
                             <Viewbox Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 5">
                                 <Canvas Width="24" Height="24">
@@ -53,7 +53,7 @@
                             <TextBlock Margin="5 0" VerticalAlignment="center">WYPŁAĆ PIENIĄDZE</TextBlock>
                         </DockPanel>
                     </Button>
-                    <Button Uid="1"  Width="200" Height="50" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF4057A1" Click="Button_Click">
+                    <Button Name="Balance"  Width="200" Height="50" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF4057A1" Click="SelectMenuButtonClick">
                         <DockPanel>
                             <Viewbox Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 5">
                                 <Canvas Width="24" Height="24">
@@ -63,7 +63,7 @@
                             <TextBlock Margin="5 0" VerticalAlignment="center">TWOJE SALDO</TextBlock>
                         </DockPanel>
                     </Button>
-                    <Button Uid="2" Width="200" Height="50" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF4057A1" Click="Button_Click">
+                    <Button Name="ChangePin" Width="200" Height="50" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF4057A1" Click="SelectMenuButtonClick">
                         <DockPanel>
                             <Viewbox Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 5">
                                 <Canvas Width="24" Height="24">
@@ -79,19 +79,19 @@
 
             <Grid x:Name="GridMain" Height="340">
                 <Grid x:Name="Wyplac" Height="330" Visibility="Visible" >
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Width="500" Margin="0 40">
+                    <StackPanel Name="PayoutStackPanel" HorizontalAlignment="Center" VerticalAlignment="Top" Width="500" Margin="0 40">
                         <TextBlock Text="Ile chcesz wypłacić?" FontSize="18" />
                         <DockPanel>
-                            <Button FontSize="24" Content="500zł" Width="200" Height="50" Background="{x:Null}"  Foreground="#FF4057A1"  Margin="10"/>
-                            <Button FontSize="24" Content="300zł" Width="200" Height="50" Background="{x:Null}"  Foreground="#FF4057A1"  Margin="10"/>                            
+                            <Button Uid="500" FontSize="24" Content="500zł" Width="200" Height="50" Background="{x:Null}" Foreground="#FF4057A1"  Margin="10" Click="SetChosenValue"/>
+                            <Button Uid="300" FontSize="24" Content="300zł" Width="200" Height="50" Background="{x:Null}" Foreground="#FF4057A1"  Margin="10" Click="SetChosenValue"/>                            
                         </DockPanel>
                         <DockPanel>
-                            <Button FontSize="24" Content="100zł" Width="200" Height="50" Background="{x:Null}"  Foreground="#FF4057A1"  Margin="10"/>
-                            <Button FontSize="24" Content="50zł" Width="200" Height="50" Background="{x:Null}"  Foreground="#FF4057A1" Margin="10" />                            
+                            <Button Uid="100" FontSize="24" Content="100zł" Width="200" Height="50" Background="{x:Null}" Foreground="#FF4057A1"  Margin="10" Click="SetChosenValue"/>
+                            <Button Uid="50" FontSize="24" Content="50zł" Width="200" Height="50" Background="{x:Null}" Foreground="#FF4057A1" Margin="10" Click="SetChosenValue"/>                            
                         </DockPanel>
                         <DockPanel>
-                            <TextBox Margin="10 10" FontSize="20" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Inna kwota" CaretBrush="#FF333337" Foreground="Black" Width="200"/>
-                            <Button FontSize="16" Width="225" Height="50"  Background="#FFEA555F" Margin="10 0 0 0">
+                            <TextBox Name="CustomValue" Margin="10 10" FontSize="20" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Inna kwota" CaretBrush="#FF333337" Foreground="Black" Width="200" TextChanged="DifferentValueChecker"/>
+                            <Button FontSize="16" Width="225" Height="50"  Background="#FFEA555F" Margin="10 0 0 0" Click="PayoutClick" Focusable="False">
                                 <DockPanel>
                                     <Viewbox Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 5">
                                         <Canvas Width="24" Height="24">
@@ -120,10 +120,10 @@
                 </Grid>
                 <Grid x:Name="Pin" Height="330" Visibility="Collapsed" >
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 10">
-                        <PasswordBox Margin="15" FontSize="20" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" materialDesign:HintAssist.Hint="Aktualny PIN" CaretBrush="#FF333337" Foreground="Black"/>
-                        <PasswordBox Margin="15" FontSize="20" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" materialDesign:HintAssist.Hint="Nowy PIN" CaretBrush="#FF333337" Foreground="Black"/>
-                        <PasswordBox Margin="15" FontSize="20" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" materialDesign:HintAssist.Hint="Powtórz nowy PIN" CaretBrush="#FF333337" Foreground="Black"/>
-                        <Button FontSize="16" Margin="20"  Width="200" Height="50"  Background="#FFEA555F">
+                        <PasswordBox Name="CurrentPin" Margin="15" FontSize="20" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" materialDesign:HintAssist.Hint="Aktualny PIN" CaretBrush="#FF333337" Foreground="Black" PasswordChanged="PinUpdate"/>
+                        <PasswordBox Name="NewPin" Margin="15" FontSize="20" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" materialDesign:HintAssist.Hint="Nowy PIN" CaretBrush="#FF333337" Foreground="Black" PasswordChanged="PinUpdate"/>
+                        <PasswordBox Name="ConfirmNewPin" Margin="15" FontSize="20" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" materialDesign:HintAssist.Hint="Powtórz nowy PIN" CaretBrush="#FF333337" Foreground="Black" PasswordChanged="PinUpdate"/>
+                        <Button FontSize="16" Margin="20"  Width="200" Height="50" Background="#FFEA555F" Click="ChangePinClick">
                             <DockPanel>
                                 <Viewbox Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 5">
                                     <Canvas Width="24" Height="24">

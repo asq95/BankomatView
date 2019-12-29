@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Bankomat.classes;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Bankomat.View
 {
@@ -20,23 +10,46 @@ namespace Bankomat.View
     /// </summary>
     public partial class MainWindow : Window
     {
+        Bank bank = null;
         public MainWindow()
         {
             InitializeComponent();
+            bank = new Bank();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void LoginButtonClick(object sender, RoutedEventArgs e)
         {
-            Menu menu = new Menu();
+            // login
+            Account customer = bank.Login(PinEntryBox.Password);
+            if (customer == null)
+            {
+                MessageBox.Show("Wrong pin", "Error");
+                return;
+            }
+
+            Menu menu = new Menu(bank, customer);
             menu.Show();
             this.Close();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void ExitButtonClick(object sender, RoutedEventArgs e)
         {
-            
             this.Close();
-           
+        }
+
+        private void PinUpdate(object sender, RoutedEventArgs e)
+        {
+            // check validity
+            PasswordBox box = sender as PasswordBox;
+            if (box == null)
+            {
+                return;
+            }
+
+            if (!System.Text.RegularExpressions.Regex.IsMatch(box.Password, "^[0-9]*$") || box.Password.Length > 4)
+            {
+                box.Password = String.Empty;
+            }
         }
     }
 }

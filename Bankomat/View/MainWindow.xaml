@@ -16,9 +16,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="400" ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen">
 
-    <Grid  UseLayoutRounding="False">
-
-
+    <Grid UseLayoutRounding="False">
         <StackPanel Margin="50" Background="White">
             <Image Source="/Assets/logo.png" Width="96" Height="96" Margin="0 10 0 0"/>
 
@@ -28,10 +26,10 @@
                 <StackPanel Margin="25">
 
 
-                    <PasswordBox Margin="15" FontSize="20" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" materialDesign:HintAssist.Hint="Podaj PIN" CaretBrush="#FF333337" Foreground="Black"/>
+                    <PasswordBox Name="PinEntryBox" Margin="15" FontSize="20" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" materialDesign:HintAssist.Hint="Podaj PIN" CaretBrush="#FF333337" Foreground="Black" PasswordChanged="PinUpdate"/>
 
                     <StackPanel Margin="25" Orientation="Vertical" HorizontalAlignment="Center">
-                        <Button Margin="10" Background="#FFEA555F" BorderBrush="{x:Null}" Click="Button_Click">
+                        <Button Margin="10" Background="#FFEA555F" BorderBrush="{x:Null}" Click="LoginButtonClick">
                             <DockPanel>
                                 <Viewbox Width="30" Height="24">
                                     <Canvas Width="24" Height="24">
@@ -41,7 +39,7 @@
                                 <TextBlock Margin="5 0" VerticalAlignment="center">ZALOGUJ</TextBlock>
                             </DockPanel>
                         </Button>
-                        <Button Margin="10" Background="#FF4057A1" BorderBrush="{x:Null}" Click="Button_Click_1">
+                        <Button Margin="10" Background="#FF4057A1" BorderBrush="{x:Null}" Click="ExitButtonClick">
                             <DockPanel>
                                 <Viewbox Width="24" Height="24">
                                     <Canvas Width="24" Height="24">

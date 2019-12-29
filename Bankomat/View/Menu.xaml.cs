@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Bankomat.classes;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Bankomat.View
 {
@@ -19,41 +10,134 @@ namespace Bankomat.View
     /// </summary>
     public partial class Menu : Window
     {
-        public Menu()
+        private Account customer;
+        private Bank bank = null;
+        private int payoutValue = 0;
+        public Menu(Bank bank, Account customer)
         {
             InitializeComponent();
+            this.bank = bank;
+            this.customer = customer;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void SelectMenuButtonClick(object sender, RoutedEventArgs e)
         {
-            int index = int.Parse(((Button)e.Source).Uid);
-            GridCursor.Margin = new Thickness(10 + (200 * index), 0, 0, 0);
-            switch (index)
+            Button button = sender as Button;
+            if (button == null)
             {
-                case 0:
-                    Wyplac.Visibility = Visibility.Visible;
-                    Saldo.Visibility = Visibility.Collapsed;
-                    Pin.Visibility = Visibility.Collapsed;
-                    
-                    break;
-                case 1:
-                    Wyplac.Visibility = Visibility.Collapsed;
-                    Saldo.Visibility = Visibility.Visible;
-                    Pin.Visibility = Visibility.Collapsed;
-                    break;
-                case 2:
-                    Wyplac.Visibility = Visibility.Collapsed;
-                    Saldo.Visibility = Visibility.Collapsed;
-                    Pin.Visibility = Visibility.Visible;
-                    break;
+                return;
+            }
+
+            if (button.Name == "Payout")
+            {
+                Wyplac.Visibility = Visibility.Visible;
+                Saldo.Visibility = Visibility.Collapsed;
+                Pin.Visibility = Visibility.Collapsed;
+                GridCursor.Margin = new Thickness(10, 0, 0, 0);
+            }
+            else if (button.Name == "Balance")
+            {
+                Wyplac.Visibility = Visibility.Collapsed;
+                Saldo.Visibility = Visibility.Visible;
+                Pin.Visibility = Visibility.Collapsed;
+                GridCursor.Margin = new Thickness(210, 0, 0, 0);
+            }
+            else if (button.Name == "ChangePin")
+            {
+                Wyplac.Visibility = Visibility.Collapsed;
+                Saldo.Visibility = Visibility.Collapsed;
+                Pin.Visibility = Visibility.Visible;
+                GridCursor.Margin = new Thickness(420, 0, 0, 0);
             }
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void SetChosenValue(object sender, RoutedEventArgs e)
         {
-            MainWindow window = new MainWindow();
-            window.Show();
+            Button button = sender as Button;
+            if (button == null)
+            {
+                return;
+            }
+
+            payoutValue = int.Parse(button.Uid);
+        }
+
+        private void PayoutClick(object sender, RoutedEventArgs e)
+        {
+            int value = payoutValue;
+            if (value == 0 && CustomValue.Text == String.Empty)
+            {
+                MessageBox.Show("Invalid payout value.", "Error");
+                return;
+            }
+
+            if (value == 0)
+            {
+                value = int.Parse(CustomValue.Text);
+            }
+
+            bank.Payout(customer, value);
+        }
+
+        private void ChangePinClick(object sender, RoutedEventArgs e)
+        {
+            if (CurrentPin.Password != customer.Pin || NewPin.Password != ConfirmNewPin.Password
+               || NewPin.Password == String.Empty || ConfirmNewPin.Password == String.Empty || CurrentPin.Password == String.Empty)
+            {
+                MessageBox.Show("Current pin is wrong or new pins aren't the same, try again.", "Error");
+                ResetPins();
+                return;
+            }
+
+            bank.ChangePin(customer, NewPin.Password);
+            ResetPins();
+        }
+
+        private void ResetPins()
+        {
+            CurrentPin.Password = String.Empty;
+            ConfirmNewPin.Password = String.Empty;
+            NewPin.Password = String.Empty;
+        }
+
+        private void ExitButtonClick(object sender, RoutedEventArgs e)
+        {
             this.Close();
+        }
+
+        private void PinUpdate(object sender, RoutedEventArgs e)
+        {
+            // check validity
+            PasswordBox box = sender as PasswordBox;
+            if (box == null)
+            {
+                return;
+            }
+
+            if (!System.Text.RegularExpressions.Regex.IsMatch(box.Password, "^[0-9]*$") || box.Password.Length > 4)
+            {
+                box.Password = String.Empty;
+            }
+        }
+
+        private void DifferentValueChecker(object sender, TextChangedEventArgs e)
+        {
+            TextBox box = sender as TextBox;
+            if (box == null)
+            {
+                return;
+            }
+
+            if (!System.Text.RegularExpressions.Regex.IsMatch(box.Text, "^[0-9]*$") || box.Text.Length > 3)
+            {
+                box.Text = String.Empty;
+            }
+
+            int value = int.Parse(box.Text);
+            if (value > 500)
+            {
+                box.Text = String.Empty;
+            }
         }
     }
 }
