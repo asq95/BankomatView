@@ -133,10 +133,13 @@ namespace Bankomat.View
                 box.Text = String.Empty;
             }
 
-            int value = int.Parse(box.Text);
-            if (value > 500)
+            if (box.Text.Length > 0)
             {
-                box.Text = String.Empty;
+                int value = int.Parse(box.Text);
+                if (value > 500)
+                {
+                    box.Text = String.Empty;
+                }
             }
         }
     }
