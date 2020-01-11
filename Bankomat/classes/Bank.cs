@@ -65,6 +65,7 @@ namespace Bankomat.classes
             MessageBox.Show("Pin was succesfully changed.", "Success");
         }
 
+
         public void Payout(Account customer, int value)
         {
             if (customer.Balance - value < 0)

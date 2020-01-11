@@ -18,6 +18,7 @@ namespace Bankomat.View
             InitializeComponent();
             this.bank = bank;
             this.customer = customer;
+            SaldoText.Text += customer.Balance;
         }
 
         private void SelectMenuButtonClick(object sender, RoutedEventArgs e)
@@ -33,6 +34,10 @@ namespace Bankomat.View
                 Wyplac.Visibility = Visibility.Visible;
                 Saldo.Visibility = Visibility.Collapsed;
                 Pin.Visibility = Visibility.Collapsed;
+                if (Wyplac.Visibility == Visibility.Visible)
+                {
+                    PayoutBtn.Focus();
+                }
                 GridCursor.Margin = new Thickness(10, 0, 0, 0);
             }
             else if (button.Name == "Balance")
@@ -47,19 +52,35 @@ namespace Bankomat.View
                 Wyplac.Visibility = Visibility.Collapsed;
                 Saldo.Visibility = Visibility.Collapsed;
                 Pin.Visibility = Visibility.Visible;
+                if (Pin.Visibility == Visibility.Visible)
+                {
+                    ChangePinBtn.Focus();
+                }
                 GridCursor.Margin = new Thickness(420, 0, 0, 0);
             }
+
+            
+            
         }
 
         private void SetChosenValue(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
+            
             if (button == null)
             {
                 return;
             }
 
-            payoutValue = int.Parse(button.Uid);
+            try
+            {
+                payoutValue = int.Parse(button.Uid);
+
+
+            }
+            catch { }
+
+            PayoutText.Text = "Aktualnie chcesz wypłacić: "+ payoutValue.ToString();
         }
 
         private void PayoutClick(object sender, RoutedEventArgs e)
@@ -71,11 +92,15 @@ namespace Bankomat.View
                 return;
             }
 
-            if (value == 0)
+            try
             {
-                value = int.Parse(CustomValue.Text);
+                if (value == 0)
+                {
+                    value = int.Parse(CustomValue.Text);
+                }
             }
-
+            catch { }
+            
             bank.Payout(customer, value);
         }
 
@@ -102,6 +127,10 @@ namespace Bankomat.View
 
         private void ExitButtonClick(object sender, RoutedEventArgs e)
         {
+
+            MainWindow newMainWindow = new MainWindow();
+            newMainWindow.Show();
+        
             this.Close();
         }
 
@@ -131,9 +160,10 @@ namespace Bankomat.View
             if (!System.Text.RegularExpressions.Regex.IsMatch(box.Text, "^[0-9]*$") || box.Text.Length > 3)
             {
                 box.Text = String.Empty;
+
             }
 
-            if (box.Text.Length > 0)
+            try
             {
                 int value = int.Parse(box.Text);
                 if (value > 500)
@@ -141,6 +171,7 @@ namespace Bankomat.View
                     box.Text = String.Empty;
                 }
             }
+            catch { }
         }
     }
 }
