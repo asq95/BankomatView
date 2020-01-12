@@ -27,6 +27,7 @@ namespace Bankomat.View
             this.customer = customer;
             LangBoxSwitch.SelectedIndex = langOption;
             SwitchLang(langOption);
+            SaldoText.Text = customer.Balance.ToString();
         }
 
         private void SelectMenuButtonClick(object sender, RoutedEventArgs e)
@@ -93,7 +94,9 @@ namespace Bankomat.View
             }
             
             bank.Payout(customer, value);
-            SaldoText.Text = customer.Balance.ToString();
+            MainWindow newMainWindow = new MainWindow(bank, LangBoxSwitch.SelectedIndex);
+            newMainWindow.Show();
+            this.Close();
         }
 
         private void ChangePinClick(object sender, RoutedEventArgs e)
