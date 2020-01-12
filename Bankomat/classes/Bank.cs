@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace Bankomat.classes
 {
-    public class Bank
+    public class Bank : IBank
     {
         // accounts
         private List<Account> accounts;
@@ -55,7 +55,8 @@ namespace Bankomat.classes
             }
             catch
             {
-                MessageBox.Show("Error", "Failed to read data.");
+                accounts.Add(new Account("1111", 15920));
+                accounts.Add(new Account("2222", 10920));
             }
         }
 

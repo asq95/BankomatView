@@ -26,7 +26,7 @@
                             <Path Data="M16.36,14C16.44,13.34 16.5,12.68 16.5,12C16.5,11.32 16.44,10.66 16.36,10H19.74C19.9,10.64 20,11.31 20,12C20,12.69 19.9,13.36 19.74,14M14.59,19.56C15.19,18.45 15.65,17.25 15.97,16H18.92C17.96,17.65 16.43,18.93 14.59,19.56M14.34,14H9.66C9.56,13.34 9.5,12.68 9.5,12C9.5,11.32 9.56,10.65 9.66,10H14.34C14.43,10.65 14.5,11.32 14.5,12C14.5,12.68 14.43,13.34 14.34,14M12,19.96C11.17,18.76 10.5,17.43 10.09,16H13.91C13.5,17.43 12.83,18.76 12,19.96M8,8H5.08C6.03,6.34 7.57,5.06 9.4,4.44C8.8,5.55 8.35,6.75 8,8M5.08,16H8C8.35,17.25 8.8,18.45 9.4,19.56C7.57,18.93 6.03,17.65 5.08,16M4.26,14C4.1,13.36 4,12.69 4,12C4,11.31 4.1,10.64 4.26,10H7.64C7.56,10.66 7.5,11.32 7.5,12C7.5,12.68 7.56,13.34 7.64,14M12,4.03C12.83,5.23 13.5,6.57 13.91,8H10.09C10.5,6.57 11.17,5.23 12,4.03M18.92,8H15.97C15.65,6.75 15.19,5.55 14.59,4.44C16.43,5.07 17.96,6.34 18.92,8M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" Fill="#FF767676" />
                         </Canvas>
                     </Viewbox>
-                    <ComboBox VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15 0"  SelectedIndex="0" Foreground="#FFA2A2A2" FontWeight="Black">
+                    <ComboBox Name="LangBoxSwitch" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15 0"  SelectedIndex="0" Foreground="#FFA2A2A2" FontWeight="Black" SelectionChanged="LanaguageSwitch">
                         <ComboBoxItem Content="PL" />
                         <ComboBoxItem Content="EN" />
                     </ComboBox>
@@ -50,7 +50,7 @@
                                     <Path  Margin="0 1 0 0 " Data="M3,6H21V18H3V6M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M7,8A2,2 0 0,1 5,10V14A2,2 0 0,1 7,16H17A2,2 0 0,1 19,14V10A2,2 0 0,1 17,8H7Z" Fill="#FF4057A1"/>
                                 </Canvas>
                             </Viewbox>
-                            <TextBlock Margin="5 0" VerticalAlignment="center">WYPŁAĆ PIENIĄDZE</TextBlock>
+                            <TextBlock Name="WyplacPieniadzeLab" Margin="5 0" VerticalAlignment="center">WYPŁAĆ PIENIĄDZE</TextBlock>
                         </DockPanel>
                     </Button>
                     <Button Name="Balance"  Width="200" Height="50" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF4057A1" Click="SelectMenuButtonClick">
@@ -60,7 +60,7 @@
                                     <Path Data="M5,6H23V18H5V6M14,9A3,3 0 0,1 17,12A3,3 0 0,1 14,15A3,3 0 0,1 11,12A3,3 0 0,1 14,9M9,8A2,2 0 0,1 7,10V14A2,2 0 0,1 9,16H19A2,2 0 0,1 21,14V10A2,2 0 0,1 19,8H9M1,10H3V20H19V22H1V10Z" Fill="#FF4057A1"/>
                                 </Canvas>
                             </Viewbox>
-                            <TextBlock  Margin="5 0" VerticalAlignment="center">DOSTĘPNE ŚRODKI</TextBlock>
+                            <TextBlock Name="DostepneSordkiText" Margin="5 0" VerticalAlignment="center">DOSTĘPNE ŚRODKI</TextBlock>
                         </DockPanel>
                     </Button>
                     <Button Name="ChangePin" Width="200" Height="50" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF4057A1" Click="SelectMenuButtonClick">
@@ -71,7 +71,7 @@
                                 </Canvas>
                             </Viewbox>
 
-                            <TextBlock Margin="5 0" VerticalAlignment="center">ZMIEŃ PIN</TextBlock>
+                            <TextBlock Name="ZmienPinText" Margin="5 0" VerticalAlignment="center">ZMIEŃ PIN</TextBlock>
                         </DockPanel>
                     </Button>
                 </StackPanel>
@@ -82,8 +82,8 @@
                 <Grid x:Name="Wyplac" Height="330" Visibility="Visible" >
                     <StackPanel Name="PayoutStackPanel" HorizontalAlignment="Center" VerticalAlignment="Top" Width="500" Margin="0 40">
                         <DockPanel>
-                            <TextBlock Text="Ile chcesz wypłacić?" FontSize="18" />
-                            <TextBlock x:Name="PayoutText" Margin="5 0"  Text="" FontSize="18" ></TextBlock>
+                            <TextBlock Name="PayoutTextConst" Text="Ile chcesz wypłacić? Aktualnie chcesz wypłacić: " FontSize="18" />
+                            <TextBlock x:Name="PayoutText" Margin="5 0" Text="0" FontSize="18" ></TextBlock>
                         </DockPanel>
                         <DockPanel>
                             <Button Uid="500" FontSize="24" Content="500zł" Width="200" Height="50" Background="{x:Null}" Foreground="#FF4057A1"  Margin="10" Click="SetChosenValue" Focusable="False"/>
@@ -94,7 +94,6 @@
                             <Button Uid="50" FontSize="24" Content="50zł" Width="200" Height="50" Background="{x:Null}" Foreground="#FF4057A1" Margin="10" Click="SetChosenValue" Focusable="False"/>                            
                         </DockPanel>
                         <DockPanel>
-                            <TextBox Name="CustomValue" Margin="10 10" FontSize="20" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Inna kwota" CaretBrush="#FF333337" Foreground="Black" Width="200" TextChanged="DifferentValueChecker"/>
                             <Button x:Name="PayoutBtn" FontSize="16" Width="225" Height="50"  Background="#FFEA555F" Margin="10 0 0 0" Click="PayoutClick" IsDefault="True">
                                 <DockPanel>
                                     <Viewbox Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 5">
@@ -102,7 +101,7 @@
                                             <Path Data="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" Fill="White"/>
                                         </Canvas>
                                     </Viewbox>
-                                    <TextBlock Margin="5 0" VerticalAlignment="center">Zatwierdź kwotę</TextBlock>
+                                    <TextBlock Name="PayoutBtnTxt" Margin="5 0" VerticalAlignment="center">Zatwierdź kwotę</TextBlock>
                                 </DockPanel>
                             </Button>                            
                         </DockPanel>
@@ -117,7 +116,8 @@
                                     <Path Data="M5,6H23V18H5V6M14,9A3,3 0 0,1 17,12A3,3 0 0,1 14,15A3,3 0 0,1 11,12A3,3 0 0,1 14,9M9,8A2,2 0 0,1 7,10V14A2,2 0 0,1 9,16H19A2,2 0 0,1 21,14V10A2,2 0 0,1 19,8H9M1,10H3V20H19V22H1V10Z" Fill="#DD252424"/>
                             </Canvas>
                         </Viewbox>
-                        <TextBlock x:Name="SaldoText" Text="Dostępne środki: " FontSize="36" Margin="10" Foreground="#DD252424"/>
+                        <TextBlock Name="DostepneBlock" Text="Dostępne środki: " FontSize="36" Margin="10" Foreground="#DD252424"/>
+                        <TextBlock x:Name="SaldoText" Text="0" FontSize="36" Margin="10" Foreground="#DD252424" Height="42"/>
                         </DockPanel>
                        
                     </StackPanel>                    
@@ -134,7 +134,7 @@
                                         <Path Data="M6.5,2C8.46,2 10.13,3.25 10.74,5H22V8H18V11H15V8H10.74C10.13,9.75 8.46,11 6.5,11C4,11 2,9 2,6.5C2,4 4,2 6.5,2M6.5,5A1.5,1.5 0 0,0 5,6.5A1.5,1.5 0 0,0 6.5,8A1.5,1.5 0 0,0 8,6.5A1.5,1.5 0 0,0 6.5,5M6.5,13C8.46,13 10.13,14.25 10.74,16H22V19H20V22H18V19H16V22H13V19H10.74C10.13,20.75 8.46,22 6.5,22C4,22 2,20 2,17.5C2,15 4,13 6.5,13M6.5,16A1.5,1.5 0 0,0 5,17.5A1.5,1.5 0 0,0 6.5,19A1.5,1.5 0 0,0 8,17.5A1.5,1.5 0 0,0 6.5,16Z" Fill="White"/>
                                     </Canvas>
                                 </Viewbox>
-                                <TextBlock Margin="15 0 0 3" VerticalAlignment="center">ZMIEŃ PIN</TextBlock>
+                                <TextBlock Name="ZmienPinTxt" Margin="15 0 0 3" VerticalAlignment="center">ZMIEŃ PIN</TextBlock>
                             </DockPanel>
                         </Button>
                     </StackPanel>
